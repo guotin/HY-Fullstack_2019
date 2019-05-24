@@ -1,10 +1,14 @@
 import React from 'react'
 
-const Person = ({ name, number}) => {
+const Person = ({ name, number, handleDelete, id }) => {
 
   return (
     <div>
-      <p>{name} {number}</p>
+      <p>{name} {number}
+       <button onClick={() => 
+        window.confirm(`Poistetaanko henkilö ${name}?`) ?
+        handleDelete(id, name) : <p></p>}>Delete</button>
+      </p>
     </div>
   )
 
