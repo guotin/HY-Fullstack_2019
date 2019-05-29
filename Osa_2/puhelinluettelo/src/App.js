@@ -38,6 +38,10 @@ const App = () => {
           setNewNumber('')
           setNotificationMessage(`Lisättiin ${personObject.name}`)
         })
+        .catch(error => {
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => setErrorMessage(null), 5000)
+        })
 
     } else {
       if (window.confirm(`${newName} on jo luettelossa, korvataanko vanha numero uudella?`)) {
