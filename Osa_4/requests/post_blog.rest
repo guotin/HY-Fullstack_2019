@@ -1,8 +1,9 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpasOkYsOkIiwiaWQiOiI1ZDFhMmY1ZTFmYTg3MTBhYTgxODBlNjkiLCJpYXQiOjE1NjIwNTcxNDV9.J7_mByMns1Erf1mvyA1hH3NkuLc9pZu0v3qwmoZ3uss
 
 {
-    "title": "blogi",
+    "title": "blogitaastaas",
     "author": "juu",
     "url": "www.com",
     "likes": 1
