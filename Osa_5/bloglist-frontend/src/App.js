@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login' 
@@ -18,7 +19,7 @@ const App = () => {
     blogService
       .getAll()
       .then(responseNotes => {
-        setBlogs(responseNotes)
+        handleBlogsChange(responseNotes)
       })
   }, [])
 
@@ -59,6 +60,10 @@ const App = () => {
     setUser(null)
   }
 
+  const handleBlogsChange = (newBlogs) => {
+    setBlogs(newBlogs.sort((a, b) => b.likes - a.likes))
+  }
+
   
   if (user === null) {
     return (
@@ -80,14 +85,22 @@ const App = () => {
       <h2>blogs</h2>
       <Notification message={notification} />
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-      <BlogForm
-        blogService={blogService}
-        blogs={blogs}
-        setBlogs={setBlogs}
-        setNotification={setNotification}
-      />   
+      <Togglable buttonLabel="new blog">
+        <BlogForm
+          blogService={blogService}
+          blogs={blogs}
+          setBlogs={setBlogs}
+          setNotification={setNotification}
+        />
+      </Togglable>   
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} 
+          blog={blog} 
+          blogService={blogService} 
+          blogs={blogs} 
+          setNewBlogs={handleBlogsChange}
+          currentUser={user} 
+        />
       )}
       
     </div>
