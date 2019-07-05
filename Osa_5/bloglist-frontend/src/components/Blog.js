@@ -35,9 +35,9 @@ const Blog = ({ blog, blogService, blogs, setNewBlogs, currentUser }) => {
   }
 
   return (
-    <div style={blogStyle}>
-      <div onClick={() => toggleVisibility()}>{blog.title} {blog.author}</div>
-      <div style={fullInfo}>
+    <div style={blogStyle} className='blog'>
+      <div className='defaultInfo' onClick={() => toggleVisibility()}>{blog.title} {blog.author}</div>
+      <div style={fullInfo} className='fullInfo'>
         <p>{blog.url}</p>
         <p>{blog.likes} likes <button onClick={() => handleLikeClick()}>like</button></p>
         <p>added by {blog.user.name}</p>
