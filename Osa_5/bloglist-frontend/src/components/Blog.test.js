@@ -11,9 +11,9 @@ const user = {
 }
 
 const blog = {
-  title: "new blog title",
-  author: "blog author",
-  url: "www.com",
+  title: 'new blog title',
+  author: 'blog author',
+  url: 'www.com',
   likes: 3,
   user: user
 }

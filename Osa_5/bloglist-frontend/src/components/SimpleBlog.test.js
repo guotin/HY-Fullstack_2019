@@ -6,13 +6,12 @@ import SimpleBlog from './SimpleBlog'
 afterEach(cleanup)
 
 const blog = {
-  title: "new blog title",
-  author: "blog author",
+  title: 'new blog title',
+  author: 'blog author',
   likes: 3
 }
 
 test('everything is rendered', () => {
-  
 
   const component = render(
     <SimpleBlog blog={blog} />
@@ -27,7 +26,7 @@ test('everything is rendered', () => {
 })
 
 test('event handler called twice when like is clicked twice', async () => {
-  
+
   const mockHandler = jest.fn()
 
   const { getByText } = render(
