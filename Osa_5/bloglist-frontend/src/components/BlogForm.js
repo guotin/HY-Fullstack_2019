@@ -14,7 +14,7 @@ const BlogForm = (props) => {
       author,
       url
     }
-    
+
     const savedBlog = await props.blogService.create(newBlog)
     props.setBlogs(props.blogs.concat(savedBlog))
     handleNotification(savedBlog)
@@ -23,9 +23,9 @@ const BlogForm = (props) => {
     setUrl('')
 
   }
-  
+
   const handleNotification = async (savedBlog) => {
-    
+
     await props.setNotification(`a new blog ${savedBlog.title} by ${savedBlog.author} added`)
     setTimeout(() => {
       props.setNotification(null)

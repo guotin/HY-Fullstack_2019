@@ -5,7 +5,7 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import loginService from './services/login' 
+import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -41,8 +41,8 @@ const App = () => {
 
       window.localStorage.setItem(
         'loggedUser', JSON.stringify(user)
-      ) 
-      
+      )
+
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -64,13 +64,13 @@ const App = () => {
     setBlogs(newBlogs.sort((a, b) => b.likes - a.likes))
   }
 
-  
+
   if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
         <Notification message={errorMessage} />
-        <LoginForm 
+        <LoginForm
           handleLogin={handleLogin}
           username={username}
           password={password}
@@ -92,19 +92,19 @@ const App = () => {
           setBlogs={setBlogs}
           setNotification={setNotification}
         />
-      </Togglable>   
+      </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} 
-          blog={blog} 
-          blogService={blogService} 
-          blogs={blogs} 
+        <Blog key={blog.id}
+          blog={blog}
+          blogService={blogService}
+          blogs={blogs}
           setNewBlogs={handleBlogsChange}
-          currentUser={user} 
+          currentUser={user}
         />
       )}
-      
+
     </div>
   )
 }
 
-export default App;
+export default App
