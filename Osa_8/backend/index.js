@@ -94,9 +94,9 @@ const resolvers = {
       } else if (!args.genre && args.author) {
         return Book.find({}).populate('author')
       } else if (!args.author && args.genre) {
-        return Book.find({ genres: { $in: [[args.genre]] } }).populate('author')
+        return Book.find({ genres: { $elemMatch: { $in: [args.genre] } } }).populate('author')
       } else {
-        return Book.find({ genres: { $in: [[args.genre]] } }).populate('author')
+        return Book.find({ genres: { $elemMatch: { $in: [args.genre] } } }).populate('author')
       }
     },
     allAuthors: async () => {
