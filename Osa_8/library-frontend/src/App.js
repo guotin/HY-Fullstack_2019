@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Query, Mutation, useApolloClient } from 'react-apollo'
+import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 import Authors from './components/Authors'
 import Books from './components/Books'
@@ -64,31 +64,22 @@ const LOGIN = gql`
   }
 `
 
-const ME = gql`
-  {
-    me {
-      favouriteGenre
-    }
-  }
-`
-const ALL_BOOKS_GENRE = gql`
-  query allBooksGenre($genre: String!) {
-    allBooks(genre: $genre) {
-      title
-      author {
-        name
-      }
-      genres
-      published
-    }
-  }
-`
-
-
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
   const client = useApolloClient()
+
+  const authors = useQuery(ALL_AUTHORS)
+  const books = useQuery(ALL_BOOKS)
+  const [editAuthor] = useMutation(EDIT_AUTHOR, {
+    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]
+  })
+  const [login] = useMutation(LOGIN, {
+    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]
+  })
+  const [addBook] = useMutation(ADD_BOOK, {
+    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]
+  })
 
   const logout = () => {
     setToken(null)
@@ -104,18 +95,9 @@ const App = () => {
           <button onClick={() => setPage('books')}>books</button>
           <button onClick={() => setPage('login')}>login</button>
         </div>
-        <Mutation mutation={EDIT_AUTHOR} refetchQueries={[{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]}>
-          {(editAuthor) =>
-            <Query query={ALL_AUTHORS}>
-              {(result) => <Authors show={page === 'authors'} result={result} editAuthor={editAuthor} />}
-            </Query>}
-        </Mutation>
-        <Query query={ALL_BOOKS}>
-          {(result) => <Books show={page === 'books'} result={result} />}
-        </Query>
-        <Mutation mutation={LOGIN} refetchQueries={[{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]}>
-          {(login) => <LoginForm show={page === 'login'} login={login} setToken={(token) => setToken(token)} />}
-        </Mutation>
+        <Authors show={page === 'authors'} result={authors} editAuthor={editAuthor} />
+        <Books show={page === 'books'} result={books} />
+        <LoginForm show={page === 'login'} login={login} setToken={(token) => setToken(token)} />
       </div>
     )
   }
@@ -129,18 +111,10 @@ const App = () => {
         <button onClick={() => setPage('recommended')}>recommended</button>
         <button onClick={() => logout()}>logout</button>
       </div>
-      <Mutation mutation={EDIT_AUTHOR} refetchQueries={[{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]}>
-        {(editAuthor) =>
-          <Query query={ALL_AUTHORS}>
-            {(result) => <Authors show={page === 'authors'} result={result} editAuthor={editAuthor} />}
-          </Query>}
-      </Mutation>
-      <Query query={ALL_BOOKS}>
-        {(result) => <Books show={page === 'books'} result={result} />}
-      </Query>
-      <Mutation mutation={ADD_BOOK} refetchQueries={[{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]}>
-        {(addBook) => <NewBook show={page === 'add'} addBook={addBook} />}
-      </Mutation>
+      <Authors show={page === 'authors'} result={authors} editAuthor={editAuthor} />
+      <Books show={page === 'books'} result={books} />
+      <NewBook show={page === 'add'} addBook={addBook} />
+      <Recommended show={page === 'recommended'} />
     </div>
   )
 }
