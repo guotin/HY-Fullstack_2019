@@ -88,9 +88,9 @@ const App = () => {
   const books = useQuery(ALL_BOOKS)
 
   const updateCacheWith = (addedBook) => {
-    const includedIn = (set, object) => 
-      set.map(b => b.title).includes(object.title)  
-
+    const includedIn = (set, object) =>
+      set.map(b => b.title).includes(object.title)
+      
     const dataInStore = client.readQuery({ query: ALL_BOOKS })
     if (!includedIn(dataInStore.allBooks, addedBook)) {
       dataInStore.allBooks.push(addedBook)
@@ -98,15 +98,15 @@ const App = () => {
         query: ALL_BOOKS,
         data: dataInStore
       })
-    }   
+    }
   }
 
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       const addedBook = subscriptionData.data.bookAdded
       window.alert(`${addedBook.title} added`)
-      console.log(addedBook, 'kirja')
       updateCacheWith(addedBook)
+      setPage(page === 'authors' ? 'books' : 'authors')
     }
   })
 

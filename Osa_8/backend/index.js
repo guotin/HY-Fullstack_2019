@@ -109,6 +109,7 @@ const resolvers = {
     allAuthors: async () => {
       const authors = await Author.find({})
       const books = await Book.find({}).populate('author')
+      console.log('moi')
       return authors.map(author => ({ name: author.name, born: author.born, id: author.id, bookCount: books.filter(b => b.author.name === author.name).length }))
     },
     me: (root, args, context) => {
